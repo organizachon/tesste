@@ -1,7 +1,7 @@
 name: Pull Request Assigned
 
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, edited, reopened, synchronize]
 
 
@@ -33,3 +33,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.pull_request.id }}
           TARGET_COLUMN: 👀 In review
+Footer
