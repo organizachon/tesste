@@ -2,13 +2,18 @@ name: Pull Request Assigned
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, edited, reopened, synchronize]
+
 
 jobs:
   handle-assigned:
     runs-on: ubuntu-latest
     steps:
-
+      - name: Check if pull request is linked to an issue
+        id: get-linked-issue
+        run: |
+          echo "ISSUE_NUMBER=$(jq -r '.issue.number' $GITHUB_EVENT_PATH)" >> $GITHUB_ENV
+          
       - name: Check if pull request is linked to an issue
         id: get-linked-issue
         run: echo "::set-output name=issue_number::$(jq -r '.issue_url' $GITHUB_EVENT_PATH | cut -d'/' -f7)"
@@ -28,3 +33,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.pull_request.id }}
           TARGET_COLUMN: 👀 In review
+Footer
