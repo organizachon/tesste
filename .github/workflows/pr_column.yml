@@ -1,0 +1,25 @@
+name: Pull Request Assigned
+
+on:
+  pull_request:
+    types: [connected]
+
+jobs:
+  handle-assigned:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log issue and pull request information
+        run: |
+          echo "Issue Title: ${{ github.event.pull_request.title }}"
+          echo "Issue Number: ${{ github.event.pull_request.number }}"
+          echo "Assignee: ${{ github.event.assignee.login }}"
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Project Card Action
+        uses: ineshbose/project-card-action@v1
+        with:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.pull_request.id }}
+          TARGET_COLUMN: 👀 In review
