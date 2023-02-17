@@ -10,9 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if pull request is linked to an issue
-        id: get-linked-issue
         run: |
           echo "ISSUE_NUMBER=$(jq -r '.issue.number' $GITHUB_EVENT_PATH)" >> $GITHUB_ENV
+          echo jq -r '.issue.number' $GITHUB_EVENT_PATH
+      
+      - name: vê
+        run: echo ${{ env.ISSUE_NUMBER }}
           
       - name: Check if pull request is linked to an issue
         id: get-linked-issue
